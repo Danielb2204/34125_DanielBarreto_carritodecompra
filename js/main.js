@@ -83,6 +83,7 @@ verCarrito.addEventListener("click", () => {
    modalContainer.append(totalBuying);
 });
 
+/*
 //Funcion constructora
 function producto(nombre, precio, img){
     this.id = productos.length + 1;
@@ -137,3 +138,4 @@ console.log(porId);
 const porNombre = filtrar(productos, "mi", "nombre")
  console.log(porNombre);
 
+*/

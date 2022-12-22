@@ -1,5 +1,7 @@
 const shopContent = document.getElementById("shopContent");
 const verCarrito = document.getElementById("verCarrito");
+const modalContainer = document.getElementById("modal_container");
+
 const productos = [
     {id: 1, nombre: "pelota mikasa", precio: 4000, img: "../img/mikasa_piso.jpg"},
     {id: 2, nombre: "pelota mikasa playa", precio: 2000, img: "../img/mikasa_playa.jpg"},
@@ -42,80 +44,44 @@ productos.forEach((product) => {
 }); 
 
 verCarrito.addEventListener("click", () => {
-    console.log("prueba");
+    modalContainer.innerHTML = "";
+    modalContainer.style.display = "flex";
+   const modalHeader = document.createElement("div");
+   modalHeader.className = "modal_header";
+   modalHeader.innerHTML = `
+   <h1 class="modal_header_title">Carrito.</h1>
+   `;
+   modalContainer.append(modalHeader);
+
+   const modalButton = document.createElement("h1");
+   modalButton.innerText = "x";
+   modalButton.className = "modal_header_button";
+
+   modalButton.addEventListener("click", () => {
+    modalContainer.style.display = "none";
+   });
+
+   modalHeader.append(modalButton);
+   
+   carrito.forEach((product) => {
+    let carritoContent = document.createElement("div");
+   carritoContent.className = "modal_content";
+   carritoContent.innerHTML = `
+   <img src="${product.img}">
+   <h3>${product.nombre}</h3>
+   <p>${product.precio} $</p>
+   `;
+
+   modalContainer.append(carritoContent);
+   });
+
+   const total = carrito.reduce((acc, el) => acc + el.precio, 0);
+
+   const totalBuying = document.createElement("div");
+   totalBuying.className = "total_content";
+   totalBuying.innerHTML = `total a pagar: ${total} $`;
+   modalContainer.append(totalBuying);
 });
-
-let seleccion = prompt("Hola, desea comprar algún producto? si o no");
-
-while(seleccion != "si" && seleccion != "no"){
-    alert("Por favor, ingresa si o no");
-    seleccion = prompt("Hola, desea comprar algo? si o no");
-}
-
-if(seleccion == "si"){
-    alert("A continuación nuestra lista de productos...");
-    let todoslosProductos = productos.map(
-        (producto) => producto.nombre + " " + producto.precio + "$"
-    );
-    alert(todoslosProductos.join(" - "));
-} else if(seleccion == "no"){
-    alert("Gracias por visitarnos, hasta pronto!");
-}
-
-while(seleccion !="no"){
-    let producto = prompt("Agregue un producto al carrito");
-    let precio = 0;
-
-    if(producto == "pelota mikasa" || producto == "pelota mikasa playa" || producto == "pelota molten 4500" || producto == "pelota molten 5000" || producto == "botas mizuno" || producto == "botas asics" || producto == "rodilleras mikasa" || producto == "rodilleras asics"){
-        switch (producto){
-            case "pelota mikasa":
-                precio = 4000;
-                break;
-            case "pelota mikasa playa":
-                precio = 2000;
-                break;
-            case "pelota molten 4500":
-                precio = 3000;
-                break;
-            case "pelota molten 5000":
-                precio = 3500;
-                break;
-            case "botas mizuno":
-                precio = 9500;
-                break;
-            case "botas asics":
-                precio = 10000;
-                break;
-            case "rodilleras mikasa":
-                precio = 1500;
-                break;
-            case "rodilleras asics":
-                precio = 1500;
-                break;
-                default:
-                    break;   
-        }
-     let unidades = parseInt(prompt("Cuántas unidades quiere llevar?"))
-
-     carrito.push({producto, unidades, precio})
-     console.log(carrito)
-    } else{
-        alert("No tenemos ese producto :(")
-    }
-
-    seleccion = prompt("Desea seguir comprando?")
-
-    while(seleccion === "no"){
-        alert("Gracias por la compra! hasta pronto.")
-        carrito.forEach((carritoFinal) => {
-            console.log(`producto: ${carritoFinal.producto}, unidades: ${carritoFinal.unidades}, total a pagar por producto ${carritoFinal.unidades * carritoFinal.precio}`)
-        })
-        break;
-    }
-}
-
-const total = carrito.reduce((acc, el) => acc + el.precio * el.unidades, 0)
-console.log(`El total a pagar por su compra es: ${total}`)
 
 //Funcion constructora
 function producto(nombre, precio, img){

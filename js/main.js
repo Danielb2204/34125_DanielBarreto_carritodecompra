@@ -1,19 +1,20 @@
 const shopContent = document.getElementById("shopContent");
 const verCarrito = document.getElementById("verCarrito");
 const modalContainer = document.getElementById("modal_container");
+const cantidadCarrito = document.getElementById("cantidadCarrito");
 
 const productos = [
-    {id: 1, nombre: "pelota mikasa", precio: 4000, img: "../img/mikasa_piso.jpg"},
-    {id: 2, nombre: "pelota mikasa playa", precio: 2000, img: "../img/mikasa_playa.jpg"},
-    {id: 3, nombre: "pelota molten 4500", precio: 3000, img: "../img/molten_4500.jpg"},
-    {id: 4, nombre: "pelota molten 5000", precio: 3500, img: "../img/molten_5000.jpg"},
-    {id: 5, nombre: "botas mizuno", precio: 9500, img: "../img/botas_mizuno.png"},
-    {id: 6, nombre: "botas asics", precio:10000, img: "../img/botas_asics.jpg"},
-    {id: 7, nombre: "rodilleras mikasa", precio: 1500, img: "../img/rodilleras_mikasa.jpg"},
-    {id: 8, nombre: "rodilleras asics", precio: 1500, img: "../img/rodilleras_asics.jpg"},
+    {id: 1, nombre: "pelota mikasa", precio: 4000, img: "../img/mikasa_piso.jpg", cantidad: 1},
+    {id: 2, nombre: "pelota mikasa playa", precio: 2000, img: "../img/mikasa_playa.jpg", cantidad: 1},
+    {id: 3, nombre: "pelota molten 4500", precio: 3000, img: "../img/molten_4500.jpg", cantidad: 1},
+    {id: 4, nombre: "pelota molten 5000", precio: 3500, img: "../img/molten_5000.jpg", cantidad: 1},
+    {id: 5, nombre: "botas mizuno", precio: 9500, img: "../img/botas_mizuno.png", cantidad: 1},
+    {id: 6, nombre: "botas asics", precio:10000, img: "../img/botas_asics.jpg", cantidad: 1},
+    {id: 7, nombre: "rodilleras mikasa", precio: 1500, img: "../img/rodilleras_mikasa.jpg", cantidad: 1},
+    {id: 8, nombre: "rodilleras asics", precio: 1500, img: "../img/rodilleras_asics.jpg", cantidad: 1},
 ];
 
-let carrito = [];
+let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
 
 productos.forEach((product) => {
     let content = document.createElement("div");
@@ -33,55 +34,41 @@ productos.forEach((product) => {
     content.append(comprar);
 
     comprar.addEventListener("click", () => {
-        carrito.push({
-            id: product.id,
-            img: product.img,
-            nombre: product.nombre,
-            precio: product.precio,
-        });
+
+        const repeat = carrito.some((repeatProduct) => repeatProduct.id === product.id);
+
+        if (repeat){
+            carrito.map((prod) => {
+                if(prod.id === product.id){
+                    prod.cantidad++;
+                }
+            });
+        }else{
+            carrito.push({
+                id: product.id,
+                img: product.img,
+                nombre: product.nombre,
+                precio: product.precio,
+                cantidad: product.cantidad,
+            });
+        }
         console.log(carrito);
+        console.log(carrito.length);
+        saveLocal();
+        carritoCounter();
+        
     });
 }); 
 
-verCarrito.addEventListener("click", () => {
-    modalContainer.innerHTML = "";
-    modalContainer.style.display = "flex";
-   const modalHeader = document.createElement("div");
-   modalHeader.className = "modal_header";
-   modalHeader.innerHTML = `
-   <h1 class="modal_header_title">Carrito.</h1>
-   `;
-   modalContainer.append(modalHeader);
+/*set item*/
 
-   const modalButton = document.createElement("h1");
-   modalButton.innerText = "x";
-   modalButton.className = "modal_header_button";
+const saveLocal = () => {
+    localStorage.setItem("carrito", JSON.stringify(carrito));
+};
 
-   modalButton.addEventListener("click", () => {
-    modalContainer.style.display = "none";
-   });
+/*get item*/
 
-   modalHeader.append(modalButton);
-   
-   carrito.forEach((product) => {
-    let carritoContent = document.createElement("div");
-   carritoContent.className = "modal_content";
-   carritoContent.innerHTML = `
-   <img src="${product.img}">
-   <h3>${product.nombre}</h3>
-   <p>${product.precio} $</p>
-   `;
-
-   modalContainer.append(carritoContent);
-   });
-
-   const total = carrito.reduce((acc, el) => acc + el.precio, 0);
-
-   const totalBuying = document.createElement("div");
-   totalBuying.className = "total_content";
-   totalBuying.innerHTML = `total a pagar: ${total} $`;
-   modalContainer.append(totalBuying);
-});
+JSON.parse(localStorage.getItem("carrito"));
 
 
 //Funcion constructora
@@ -96,19 +83,6 @@ function producto(nombre, precio, img){
     }
 }
 
-//Funciones de filtrado
-
-console.log(productos);
-
-function findProduct(arr, filtro){
-    const encontrado = arr.find((product)=>{
-        return product.nombre.includes(filtro.toLowerCase())
-    })
-    return encontrado;
-}
-//let buscar = prompt("Ingresa el nombre del producto")
-const prodEncontrado = findProduct(productos, buscar)
-console.log(prodEncontrado);
 
 //Funcion de filtrado generica
 

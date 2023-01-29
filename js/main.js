@@ -1,64 +1,137 @@
-const shopContent = document.getElementById("shopContent");
-const verCarrito = document.getElementById("verCarrito");
-const modalContainer = document.getElementById("modal_container");
-const cantidadCarrito = document.getElementById("cantidadCarrito");
+const cards = document.getElementById("cards")
+const items = document.getElementById("items")
+const footer = document.getElementById("footer")
+const templateCard = document.getElementById("template-card").content
+const templateFooter = document.getElementById("template-footer").content
+const templateCarrito = document.getElementById("template-carrito").content
+const fragment = document.createDocumentFragment()
 
-const productos = [
-    {id: 1, nombre: "pelota mikasa", precio: 4000, img: "../img/mikasa_piso.jpg", cantidad: 1},
-    {id: 2, nombre: "pelota mikasa playa", precio: 2000, img: "../img/mikasa_playa.jpg", cantidad: 1},
-    {id: 3, nombre: "pelota molten 4500", precio: 3000, img: "../img/molten_4500.jpg", cantidad: 1},
-    {id: 4, nombre: "pelota molten 5000", precio: 3500, img: "../img/molten_5000.jpg", cantidad: 1},
-    {id: 5, nombre: "botas mizuno", precio: 9500, img: "../img/botas_mizuno.png", cantidad: 1},
-    {id: 6, nombre: "botas asics", precio:10000, img: "../img/botas_asics.jpg", cantidad: 1},
-    {id: 7, nombre: "rodilleras mikasa", precio: 1500, img: "../img/rodilleras_mikasa.jpg", cantidad: 1},
-    {id: 8, nombre: "rodilleras asics", precio: 1500, img: "../img/rodilleras_asics.jpg", cantidad: 1},
-];
+let carrito = []
 
-let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+document.addEventListener('DOMContentLoaded', () => {
+    fetchData()
 
-productos.forEach((product) => {
-    let content = document.createElement("div");
-    content.className = "card";
-    content.innerHTML = `
-    <img src="${product.img}">
-    <h3>${product.nombre}</h3>
-    <p class="price">${product.precio} $</p>
-    `;
+});
 
-    shopContent.append(content);
+cards.addEventListener('click', e => {
+    addCarrito(e);
+});
 
-    let comprar = document.createElement("button")
-    comprar.innerText = "comprar";
-    comprar.className = "comprar";
+items.addEventListener('click', e => {
+    btnAccion(e)
+});
 
-    content.append(comprar);
+const fetchData = async () => {
+    try{
+        const res = await fetch('/data/data.json')
+        const data = await res.json()
+        pintarCards(data);
+    } catch (error) {
+        console.log(error);
+    }
+};
 
-    comprar.addEventListener("click", () => {
+const pintarCards = data => {
+    data.forEach(producto => {
+        templateCard.querySelector('h5').textContent = producto.nombre;
+        templateCard.querySelector('p').textContent = producto.precio;
+        templateCard.querySelector('img').setAttribute("src", producto.img);
+        templateCard.querySelector('.btn-dark').dataset.id = producto.id;
+        const clone = templateCard.cloneNode(true)
+        fragment.appendChild(clone);
+    })
+    cards.appendChild(fragment);
+};
 
-        const repeat = carrito.some((repeatProduct) => repeatProduct.id === product.id);
+const addCarrito = e => {
 
-        if (repeat){
-            carrito.map((prod) => {
-                if(prod.id === product.id){
-                    prod.cantidad++;
-                }
-            });
-        }else{
-            carrito.push({
-                id: product.id,
-                img: product.img,
-                nombre: product.nombre,
-                precio: product.precio,
-                cantidad: product.cantidad,
-            });
-        }
-        console.log(carrito);
-        console.log(carrito.length);
-        saveLocal();
-        carritoCounter();
-        
+    if(e.target.classList.contains('btn-dark')){
+        setCarrito(e.target.parentElement);
+    }
+    e.stopPropagation()
+};
+
+const setCarrito = objeto => {
+console.log(objeto);
+const producto = {
+    id: objeto.querySelector('.btn-dark').dataset.id,
+    nombre: objeto.querySelector('h5'). textContent,
+    precio: objeto.querySelector('p').textContent,
+    cantidad: 1
+}
+if(carrito.hasOwnProperty(producto.id)){
+    producto.cantidad++
+}
+
+carrito[producto.id] = {...producto}
+
+pintarCarrito()
+}
+
+const pintarCarrito = () => {
+    items.innerHTML = ''
+    Object.values(carrito).forEach(producto => {
+        templateCarrito.querySelector('th').textContent = producto.id
+        templateCarrito.querySelectorAll('td')[0].textContent = producto.nombre
+        templateCarrito.querySelectorAll('td')[1].textContent = producto.cantidad
+        templateCarrito.querySelector('.btn-info').dataset.id = producto.id
+        templateCarrito.querySelector('.btn-danger').dataset.id = producto.id
+        templateCarrito.querySelector('span').textContent = producto.cantidad * producto.precio
+        const clone = templateCarrito.cloneNode(true)
+        fragment.appendChild(clone)
     });
-}); 
+    items.appendChild(fragment);
+
+    pintarFooter();
+
+   
+}
+
+const pintarFooter = () => {
+    footer.innerHTML = ''
+    if(Object.keys(carrito).length === 0){
+        footer.innerHTML = `
+        <th scope="row" colspan="5">Carrito vacío - comience a comprar!</th>
+        `
+        return
+    };
+    const nCantidad = Object.values(carrito).reduce((acc, {cantidad}) => acc + cantidad , 0)
+    const nPrecio = Object.values(carrito).reduce ((acc,{cantidad, precio}) => acc + cantidad * precio, 0)
+
+    templateFooter.querySelectorAll('td')[0].textContent = nCantidad
+    templateFooter.querySelector('span').textContent = nPrecio
+
+    const clone = templateFooter.cloneNode(true)
+    fragment.appendChild(clone)
+    footer.appendChild(fragment)
+
+    const btnVaciar = document.getElementById("vaciar-carrito")
+    btnVaciar.addEventListener('click', () => {
+        carrito = {}
+        pintarCarrito()
+    });
+}
+
+const btnAccion = e => {
+    //Acción de aumentar
+    if(e.target.classList.contains('btn-info')){
+        
+        const producto = carrito[e.target.dataset.id]
+        producto.cantidad++
+        carrito[e.target.dataset.id] = {...producto}
+        pintarCarrito()
+    }
+    if(e.target.classList.contains('btn-danger')){
+        const producto = carrito[e.target.dataset.id]
+        producto.cantidad--
+        if(producto.cantidad === 0){
+            delete carrito[e.target.dataset.id]
+        }
+        pintarCarrito()
+    }
+    e.stopPropagation()
+
+}
 
 /*set item*/
 
@@ -69,45 +142,3 @@ const saveLocal = () => {
 /*get item*/
 
 JSON.parse(localStorage.getItem("carrito"));
-
-
-//Funcion constructora
-function producto(nombre, precio, img){
-    this.id = productos.length + 1;
-    this.nombre = nombre;
-    this.precio = parseFloat(precio);
-    if(this.img === undefined){
-        this.img = "https://https://via.placeholder.com/300";
-    } else{
-        this.img = img;
-    }
-}
-
-
-//Funcion de filtrado generica
-
-function filtrar(arr, filtro, param){
-    return arr.filter((el)=>{
-        if(param == "precio"){
-            return el[param] <= filtro;
-        } else if (param === "id"){
-            return el[param] == filtro;
-        } else{
-            return el[param].includes(filtro);
-        }
-    });
-}
-
-//Filtrar por precio
-const porPrecio = filtrar(productos, 7000, "precio")
-
-console.log(porPrecio);
-
-//Filtrar por ID
-const porId = filtrar(productos, 3, "id")
-
-console.log(porId);
-
-//Filtrar por nombre
-const porNombre = filtrar(productos, "mi", "nombre")
- console.log(porNombre);

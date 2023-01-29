@@ -4,35 +4,81 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./css/style.css">
-    <title>Carrito de compras | JavaScript</title>
+    <link rel="stylesheet" href="./css/inicio.css">
+    <title>Inicio de sesión | JavaScript </title>
 </head>
 <body>
-    
-<!--navBar-->
+    <!--navBar-->
 
 <div class="nav_container">
     <nav class="navbar">
-        <h1 class="navbar_logo">Shop.</h1>
-        <h1 class="ver_carrito" id="verCarrito">🛒 <span id="cantidadCarrito" class="cantidad_carrito"></span></h1>
+        <h1 class="navbar_logo">Volley Ground.</h1>
     </nav>
 </div>
 
-<!--banner-->
-<div class="banner">
-    <div class="banner_container">
-        <h1>Volley Shop</h1>
-        <p>El mejor espacio de ventas de volley</p>
+<div class="container-form sign-up">
+    <div class="welcome">
+        <div class="message">
+            <h2>Bienvenido a Volley Ground</h2>
+            <p>Si ya tienes una cuenta, por favor inicia sesión aquí.</p>
+            <button class="sign-in-btn">Iniciar Sesión</button>
+        </div>
+    </div> 
+    <div class="formulario register">
+        <h2 class="create-account">Crear una cuenta</h2>
+        <form action="">
+            <div>
+                <label for="nombre">Nombre</label>
+                <input type="text" id="nombre">
+            </div>
+            <div>
+                <label for="userReg">Usuario</label>
+                <input type="text" id="userReg">
+            </div>
+            <div>
+                <label for="email">Email</label>
+                <input type="text" id="email">
+            </div>
+            <div>
+                <label for="passReg">Contraseña</label>
+                <input type="password" id="passReg">
+            </div>
+            <div>
+                <input type="submit" value="Registrar" id="registrar">
+            </div>
+        </form>
     </div>
 </div>
 
-<!--shop contenido-->
-<div id="shopContent" class="shop_content"></div>
-
-<!--modal container-->
-<div id="modal_container" class="modal_container"></div>
-
-    <script src="./js/main.js"></script>
-    <script src="./js/carrito.js"></script>
+<div class="container-form sign-in">
+    <div class="formulario login">
+        <h2 class="create-account">Iniciar Sesión.</h2>
+        <form action="">
+            <div>
+                <label for="user">Usuario</label>
+                <input type="text" id="user">
+            </div>
+            <div>
+                <label for="pass">Contraseña</label>
+                <input type="password" id="pass">
+            </div>
+            <div>
+                <input type="submit" value="Ingresar" id="ingresar">
+            </div>
+            <p id="mensaje"></p>
+        </form>
+    </div>
+    <div class="welcome">
+        <div class="message">
+            <h2>Bienvenido a Volley Ground</h2>
+            <p>Si aún no tienes cuenta, por favor registrate aquí.</p>
+            <button class="sign-up-btn">Registrarse</button>
+        </div>
+    </div>
+</div>
+    
+<script src="./js/inicio.js"></script>
+<script src="./js/registro.js"></script>
+<script src="./js/boton-ini-reg.js"></script>
 </body>
 </html>

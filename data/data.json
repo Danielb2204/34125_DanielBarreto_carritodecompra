@@ -1,0 +1,50 @@
+[
+   {
+      "id":1,
+      "nombre":"pelota mikasa",
+      "precio":4000,
+      "img":"../img/mikasa_piso.jpg"
+   },
+   {
+      "id":2,
+      "nombre":"pelota mikasa playa",
+      "precio":2000,
+      "img":"../img/mikasa_playa.jpg"
+   },
+   {
+      "id":3,
+      "nombre":"pelota molten 4500",
+      "precio":3000,
+      "img":"../img/molten_4500.jpg"
+   },
+   {
+      "id":4,
+      "nombre":"pelota molten 5000",
+      "precio":3500,
+      "img":"../img/molten_5000.jpg"
+   },
+   {
+      "id":5,
+      "nombre":"botas mizuno",
+      "precio":9500,
+      "img":"../img/botas_mizuno.png"
+   },
+   {
+      "id":6,
+      "nombre":"botas asics",
+      "precio":10000,
+      "img":"../img/botas_asics.jpg"
+   },
+   {
+      "id":7,
+      "nombre":"rodilleras mikasa",
+      "precio":1500,
+      "img":"../img/rodilleras_mikasa.jpg"
+   },
+   {
+      "id":8,
+      "nombre":"rodilleras asics",
+      "precio":1500,
+      "img":"../img/rodilleras_asics.jpg"
+   }
+]

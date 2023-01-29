@@ -12,23 +12,16 @@ body{
 
 .navbar{
     display: flex;
-    justify-content: space-between;
-    height: 12vh;
+    justify-content: center;
+    height: 13vh;
     background-color: #1b1b1b;
 }
 
 .navbar_logo{
-    justify-self: start;
+    justify-content: center;
     margin-left: 20px;
     color: #fff;
     margin-top: 4vh;
-    cursor: pointer;
-}
-
-.ver_carrito{
-    font-size: 25px;
-    margin-right: 20px;
-    margin-top: 3.5vh;
     cursor: pointer;
 }
 
@@ -106,88 +99,7 @@ body{
     opacity: 0.7;
 }
 
-/*Contenido del modal*/
-
-.modal_container{
-    width: 80%;
-    margin: 0 10%;
-    max-height: 88vh;
-    color: #fff;
-    background-color: #121212;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    /*parte de arriba*/
-    position: fixed;
-    overflow: auto;
-    z-index: 9;
-    top: 12vh;
-    scrollbar-color: none;
-}
-
-.modal_container::-webkit-scrollbar{
-    display: none;
-}
-
-.modal_header{
-    display: flex;
-    justify-content: space-around;
-    background-color: #0a0909;
-    color: #fff;
-    width: 100%;
-}
-
-.modal_header_title{
-    justify-self: start;
-}
-
-.modal_header_button{
-    cursor: pointer;
-}
-
-.modal_container > .modal_content{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    align-items: center;
-    width: 70%;
-    margin: 10px;
-}
-
-.modal_container > div > img{
-    height: 120px;
-    width: 120px;
-}
-
-.total_content{
-    font-size: 25px;
-    padding: 20px;
-    text-align: center;
-    padding-top: 20px;
-}
-
-/*delete button product*/
-.delete_product{
-    cursor: pointer;
-}
-
-/*carrito counter*/
-.cantidad_carrito{
-    background-color: red;
-    color: white;
-    border-radius: 50%;
-    font-size: 12px;
-    padding: 4px;
-    top: 37px;
-    right: 14px;
-    position: absolute;
-    display: none;
-}
-
-.sumar{
-    cursor: pointer;
-}
-
-.restar{
-    cursor: pointer;
+.btn-info{
+   background-color: rgb(8, 145, 49);
+   
 }

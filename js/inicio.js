@@ -7,7 +7,7 @@ const btnIngresar = document.getElementById("ingresar"),
 
 function inicioSesion(usuarios){
     let userFound = usuarios.find(usuario => {
-        return usuario.nombre == user.value && usuario.pass == pass.value;
+        return usuario.nombre === user.value && usuario.pass === pass.value;
     });
     if(userFound){
         window.location.href = "./carrito.html"

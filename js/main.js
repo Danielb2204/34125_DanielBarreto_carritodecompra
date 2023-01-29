@@ -9,7 +9,7 @@ const fragment = document.createDocumentFragment()
 let carrito = []
 
 document.addEventListener('DOMContentLoaded', () => {
-    fetchData()
+    fetchAPI()
 
 });
 
@@ -21,15 +21,12 @@ items.addEventListener('click', e => {
     btnAccion(e)
 });
 
-const fetchData = async () => {
-    try{
-        const res = await fetch('../data/data.json')
-        const data = await res.json()
-        pintarCards(data);
-    } catch (error) {
-        console.log(error);
-    }
-};
+async function fetchAPI(){
+    const response = await fetch('./data/data.json');
+    const datos = await response.json();
+
+    pintarCards(datos)
+}
 
 const pintarCards = data => {
     data.forEach(producto => {

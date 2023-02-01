@@ -9,7 +9,8 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    background-image: url(/img/volley_fondo.jpg);
+    background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
+    url(../img/volley_fondo.jpg);
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;

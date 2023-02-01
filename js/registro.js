@@ -5,7 +5,7 @@ userReg = document.querySelector("#userReg"),
 passReg = document.querySelector("#passReg"),
 btnRegistrar = document.querySelector("#registrar");
 
-let usuarios;
+let usuarios = {}
 
 if(localStorage.getItem(usuarios)){
     usuarios = JSON.parse(localStorage.getItem(usuarios));
